@@ -35,6 +35,9 @@ def GetIndexSumForState(state, firstPotIndex):
             total += (firstPotIndex + i)
     return total
 
+partASteps = 20
+partBSteps = 50000000000
+cycleSteps = 113 # Detected visually!
 statefile = "C:\\Users\\jkearns\\Documents\\GitHub\\advent-of-code-2018\\12\\state0.txt"
 rulesfile = "C:\\Users\\jkearns\\Documents\\GitHub\\advent-of-code-2018\\12\\rules.txt"
 with open(statefile) as f:
@@ -44,7 +47,7 @@ with open(rulesfile) as f:
     rulesLines = f.readlines()
 
 step = 0
-firstPotIndex = -3
+firstPotIndex = -2
 
 state = []
 for c in stateLines[0]:
@@ -55,8 +58,21 @@ for line in rulesLines:
     r = line.split(' => ')
     rules[r[0]] = (r[1] == '#' or r[1] == '#\n')
 
-while step < 20:
+while step < cycleSteps:
+    if step == partASteps:
+        print("Part A score: ")
+        print(GetIndexSumForState(state, firstPotIndex))
+        print('')
     state = UpdateState(state, rules)
     step += 1
 
-print(GetIndexSumForState(state, firstPotIndex))
+firstCycleScore = GetIndexSumForState(state, firstPotIndex)
+state = UpdateState(state, rules)
+step += 1
+secondCycleScore = GetIndexSumForState(state, firstPotIndex)
+diff = secondCycleScore - firstCycleScore
+stepsToGo = partBSteps - step
+partBScore = secondCycleScore + (diff * stepsToGo)
+
+print("Part B score: ")
+print(partBScore)
