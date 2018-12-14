@@ -119,12 +119,11 @@ while not lastCart:
             collisions += 1
             message = str(collisions) + ': Collision found on step ' + str(steps) + '\n(' + str(check[1]) + ',' + str(check[2]) + ')\n'
             print(message)
-            i -= 2
-            lastCartIndex -= 2
-        check2 = RemainingCarts(carts)
-        if check2[0] <= 1:
-            message = 'Last cart found on step ' + str(steps) + '\n(' + str(check2[1]) + ',' + str(check2[2]) + ')\n'
-            print(message)
-            lastCart = True
-            break
+        
         i += 1
+    check2 = RemainingCarts(carts)
+    if check2[0] <= 1:
+        message = 'Last cart found on step ' + str(steps) + '\n(' + str(check2[1]) + ',' + str(check2[2]) + ')\n'
+        print(message)
+        lastCart = True
+        break
