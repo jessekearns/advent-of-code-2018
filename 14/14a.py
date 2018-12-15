@@ -22,7 +22,7 @@ class Elf:
             self.recipe = self.recipe.next
 
 # Create new recipes and insert to the list
-# Return the new tail, the number of items added, and whether there's a match for part B
+# Return the new tail and the number of items added
 def Mix(r1, r2, tail):
     currentTail = tail
     sum = r1.score + r2.score
@@ -59,8 +59,6 @@ def CheckMatch(sequence, tail):
     return False
 
 input = 894501
-checkPartA = False
-checkPartB = True
 
 head = Recipe(None, None, None, None, 3)
 tail = Recipe(head, head, None, None, 7)
@@ -69,28 +67,17 @@ head.next = tail
 e1 = Elf(head)
 e2 = Elf(tail)
 currentLength = 2
-while checkPartA or checkPartB:
+while currentLength < input + 10:
     newTail, newItems = Mix(e1.recipe, e2.recipe, tail)
     tail = newTail
     currentLength = currentLength + newItems
     e1.Advance()
     e2.Advance()
 
-    if checkPartA and currentLength < input + 10:
-        backItem = tail
-        outputString = ''
-        for i in range(10):
-            outputString = str(backItem.score) + outputString
-            backItem = backItem.prev  
+backItem = tail
+outputString = ''
+for i in range(10):
+    outputString = str(backItem.score) + outputString
+    backItem = backItem.prev  
 
-        print('Ten Recipes after input:')
-        print(outputString)
-        print()
-
-        checkPartA = False
-
-    if checkPartB and currentLength > 20000000 and CheckMatch(input, tail):
-        print('Sequence Found after')
-        print(currentLength - len(str(input)))
-        print()
-        checkPartB = False
+print(outputString)
